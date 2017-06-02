@@ -7,13 +7,11 @@ Serville is a **fast, tiny, and opinionated** HTTP library for NodeJS.
 Serville is **perfect for your REST API** - it serves up JSON, and it does it
 well! **It takes just minutes to set it up and give it a whirl.**
 
-**Installing:**
+**Set It Up:**
 
 ```sh
 npm i --save serville
 ```
-
-**Using:**
 
 ```js
 const app = require('serville')();
