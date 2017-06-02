@@ -77,6 +77,13 @@ app.at('/echo', (q) => ({ text: q.query.text }));
 app.at('/agent', (q) => ({ agent: q.headers['user-agent'] }));
 ```
 
+**Handling Node HTTP Server Errors:**
+```js
+app.catch((err, socket) => {
+  socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+});
+```
+
 ## Contributing
 
 Fork and clone this repository to get started, then run `npm i` to install dev
