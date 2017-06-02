@@ -91,6 +91,6 @@ fit. Contributions are very much welcomed!
 
 The source code for the library is in `dev/serville.js`.
 Modify the testing script in `dev/test.js` to try out your changes and new
-features. You can run these tests with `npm test`.
+features. You can run these tests with `npm run dev`.
 
 To build the current version of the server to `serville.js`, simply run `npm run build`.
