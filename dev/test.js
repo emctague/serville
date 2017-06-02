@@ -8,7 +8,7 @@ let app = Serville().listen(8080, () => {
 
 // Handle Node HTTP errors.
 app.catch((err, socket) => {
-  s.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+  socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
 });
 
 app.at('/', (q) => ({ message: "Hello!" }));
