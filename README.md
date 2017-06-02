@@ -4,6 +4,7 @@
 [![npm](https://img.shields.io/npm/v/serville.svg?style=flat-square)](https://www.npmjs.com/package/serville)
 [![npm](https://img.shields.io/npm/l/serville.svg?style=flat-square)](https://spdx.org/licenses/MIT)
 [![](https://img.shields.io/github/issues-raw/badges/shields.svg?style=flat-square)](https://github.com/emctague/serville/issues)
+[![Gitter](https://img.shields.io/gitter/room/_serville/serville.svg?style=flat-square)](https://gitter.im/_serville)
 
 Serville is a **fast, tiny, and opinionated** HTTP library for NodeJS.
 
