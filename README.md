@@ -90,6 +90,20 @@ app.catch((err, socket) => {
 });
 ```
 
+**Handling Error Logging:**
+```js
+app.log((msg) => console.log(`Serville Error: ${msg}`));
+// By default, logger is console.log.
+```
+
+**Don't Crash on Binding Errors:**
+```js
+app.crashOnBindError = false;
+```
+
+Please note that it is [considered safer to crash](https://www.joyent.com/node-js/production/design/errors)
+when an unknown error occurs - it is not recommended to turn this option off.
+
 ## Contributing
 
 Fork and clone this repository to get started, then run `npm i` to install dev

@@ -9,6 +9,8 @@ const querystring = require('querystring');
 class Serville {
   constructor () {
     this.bindings = [];
+    this.logger = console.log;
+    this.crashOnBindError = true;
 
     // Handle HTTP requests.
     this.server = http.createServer((req, res) => {
@@ -31,15 +33,15 @@ class Serville {
           req.on('data', (chunk) => data += chunk);
           req.on('end', () => {
 
-            // Call the binding.
-            let bindCall = binding.cb({
-              params: params,
-              headers: req.headers,
-              query: Object.assign(parsed.query, querystring.parse(data))
-            });
-
             // Send result to a server (whether promise or not.)
             try {
+              // Call the binding.
+              let bindCall = binding.cb({
+                params: params,
+                headers: req.headers,
+                query: Object.assign(parsed.query, querystring.parse(data))
+              });
+
               if (bindCall instanceof Promise)
                 bindCall.then((result) => {
                   res.end(JSON.stringify(result));
@@ -49,10 +51,17 @@ class Serville {
             } catch (e) {
               // Handle errors in the binding code.
               res.statusCode = 500;
-              res.end({
+              res.end(JSON.stringify({
                 status: 'Server Error',
-                error: e
-              });
+                error: this._log(e)
+              }));
+
+              // Crash the program - devs should make their server auto-restart.
+              // This is safer than continuing to run after errors.
+              if (this.crashOnBindError) {
+                this._log('Fatal binding error, aborting app. Your server should handle automatic restarting.');
+                process.exit(1);
+              }
             }
           });
           return;
@@ -106,6 +115,18 @@ class Serville {
   // Listen on the specified port, then call the callback.
   listen (port, cb) {
     this.server.listen(port, cb);
+    return this;
+  }
+
+  // Log the given messaage, then return it.
+  _log (message) {
+    this.logger(`[${new Date()}] ${message}`);
+    return message;
+  }
+
+  // Set the logger function to use to log errors.
+  log (logger) {
+    this.logger = logger;
     return this;
   }
 }
