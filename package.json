@@ -1,0 +1,22 @@
+{
+  "name": "serville",
+  "version": "1.0.0",
+  "description": "Serville, the fast and easy HTTP API library for NodeJS.",
+  "main": "serville.js",
+  "scripts": {
+    "test": "node dev/test.js",
+    "build": "babili dev/serville.js -o serville.js"
+  },
+  "keywords": [
+    "http",
+    "server",
+    "serville",
+    "api"
+  ],
+  "repository": "emctague/serville",
+  "author": "Ethan McTague",
+  "license": "MIT",
+  "devDependencies": {
+    "babili": "^0.1.2"
+  }
+}
