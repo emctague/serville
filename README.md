@@ -1,6 +1,9 @@
 # Serville
 
-[![NPM](https://nodei.co/npm/serville.png)](https://nodei.co/npm/serville/)
+[![Travis](https://img.shields.io/travis/emctague/serville.svg?style=flat-square)](https://travis-ci.org/emctague/serville)
+[![npm](https://img.shields.io/npm/v/serville.svg?style=flat-square)](https://www.npmjs.com/package/serville)
+[![npm](https://img.shields.io/npm/l/serville.svg?style=flat-square)](https://spdx.org/licenses/MIT)
+[![](https://img.shields.io/github/issues-raw/badges/shields.svg?style=flat-square)](https://github.com/emctague/serville/issues)
 
 Serville is a **fast, tiny, and opinionated** HTTP library for NodeJS.
 
