@@ -39,12 +39,21 @@ class Serville {
             });
 
             // Send result to a server (whether promise or not.)
-            if (bindCall instanceof Promise)
-              bindCall.then((result) => {
-                res.end(JSON.stringify(result));
+            try {
+              if (bindCall instanceof Promise)
+                bindCall.then((result) => {
+                  res.end(JSON.stringify(result));
+                });
+              else
+                res.end(JSON.stringify(bindCall));
+            } catch (e) {
+              // Handle errors in the binding code.
+              res.statusCode = 500;
+              res.end({
+                status: "Server Error",
+                error: e
               });
-            else
-              res.end(JSON.stringify(bindCall));
+            }
           });
           return;
         }
