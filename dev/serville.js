@@ -8,9 +8,9 @@ const querystring = require('querystring');
  */
 class Serville {
   constructor () {
-    this.bindings = [];
-    this.logger = console.log;
-    this.crashOnBindError = true;
+    this.bindings = [];           // List of all path bindings.
+    this.logger = console.log;    // The logger to use to log errors.
+    this.crashOnBindError = true; // Crash when an error occurs in a binding?
 
     // Handle HTTP requests.
     this.server = http.createServer((req, res) => {
@@ -42,6 +42,7 @@ class Serville {
                 query: Object.assign(parsed.query, querystring.parse(data))
               });
 
+              // Send out the results (Promise-based or return-based.)
               if (bindCall instanceof Promise)
                 bindCall.then((result) => {
                   res.end(JSON.stringify(result));
@@ -83,6 +84,7 @@ class Serville {
    *  headers: (Object) HTTP request headers
    */
   at (location, cb) {
+    // Find parameters (:something).
     let detect = /\/\:([a-zA-Z0-9_]+?)(?=\/|$)/g;
     let keys = location.match(detect) || [];
 
