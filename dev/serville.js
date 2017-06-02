@@ -27,7 +27,7 @@ class Serville {
             params[binding.keys[i]] = match[parseInt(i) + 1];
 
           // Wait for all HTTP post data (if any) to arrive.
-          let data = "";
+          let data = '';
           req.on('data', (chunk) => data += chunk);
           req.on('end', () => {
 
@@ -50,7 +50,7 @@ class Serville {
               // Handle errors in the binding code.
               res.statusCode = 500;
               res.end({
-                status: "Server Error",
+                status: 'Server Error',
                 error: e
               });
             }
@@ -78,7 +78,7 @@ class Serville {
     let keys = location.match(detect) || [];
 
     // Make the location regex-safe, then add selectors for prop values.
-    let rex = location.replace(/[\-\[\]\/\{\}\(\)\*\+\.\\\^\$\|]/g, "\\$&");
+    let rex = location.replace(/[\-\[\]\/\{\}\(\)\*\+\.\\\^\$\|]/g, '\\$&');
     for (let key of keys)
       rex = rex.replace(key, '/(.+?)');
 
