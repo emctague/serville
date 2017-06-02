@@ -3,7 +3,8 @@
 [![NPM](https://nodei.co/npm/serville.png)](https://nodei.co/npm/serville/)
 
 Serville is a **fast, tiny, and opinionated** HTTP library for NodeJS.
-Ideal for APIs, it serves up JSON and nothing but JSON.
+Serville is **perfect for your REST API** - it serves up JSON, and it does it
+well! **It takes just minutes to set it up and give it a whirl.**
 
 **Installing:**
 
