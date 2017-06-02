@@ -111,6 +111,11 @@ dependencies.
 There's no formal contribution procedure (yet), feel free to submit PRs and issues as you see
 fit. Contributions are very much welcomed!
 
+Just note that you can't work directly on the `master` branch, as it is
+protected. We recommend editing code on your own branch, then merging into
+`develop`. You may only merge with `master` after your PR is approved and
+continuous integration checks pass.
+
 The source code for the library is in `dev/serville.js`.
 Modify the testing script in `dev/test.js` to try out your changes and new
 features. You can run these tests with `npm run dev`.
