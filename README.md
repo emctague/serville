@@ -74,6 +74,20 @@ app.at('/echo', (q) => ({ text: q.query.text }));
 // => { "text": "Hello!" }
 ```
 
+**Regular Expression Matching:**
+
+You can also match paths as regular expressions!
+The `match` property will contain the results of running
+`RegExp.match(path)` with your regex.
+
+```js
+app.at(/^\/my-name-is-(.+)$/, (q) => (
+  { message: `Hello, ${q.match[1]}!` }
+));
+// GET localhost:8080/my-name-is-Patricia
+// => { "message": "Hello, Patricia!" }
+```
+
 **Differentiating request types:**
 
 ```js
