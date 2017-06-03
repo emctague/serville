@@ -100,6 +100,16 @@ app.crashOnBindError = false;
 Please note that it is [considered safer to crash](https://www.joyent.com/node-js/production/design/errors)
 when an unknown error occurs - it is not recommended to turn this option off.
 
+## Notes
+
+ * The NPM package does not include the project sources or certain files from the
+   repository. This is to save space.
+   If you want to save even more space, simply download `serville.js` and put it
+   in your project instead. It's minified!
+
+ * Serville doesn't yet have full code-coverage unit testing and there may be some
+   quirks or bugs. If you find anything, please [submit an issue](https://github.com/emctague/serville/issues/new)!
+
 ## Contributing
 
 Fork and clone this repository to get started, then run `npm i` to install dev
