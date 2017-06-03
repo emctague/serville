@@ -32,6 +32,10 @@ app.at('/', (q) => ({ message: "Hello!" }));
 
 **URL Parameters:**
 
+URL parameters can be specified by putting a colon before
+their name in the path. Their values will show up later in
+the `params` property.
+
 ```js
 app.at('/say/:text', (q) => ({ text: q.params.text }));
 // GET localhost:8080/say/hello
@@ -39,6 +43,9 @@ app.at('/say/:text', (q) => ({ text: q.params.text }));
 ```
 
 **Optional Trailing Slash:**
+
+Want to allow an optional trailing slash at the end of a URL?
+Add a question mark after it to make it optional!
 
 ```js
 app.at('/either/way/?', (q) => ({ message: "Hey there! "}));
@@ -49,6 +56,9 @@ app.at('/either/way/?', (q) => ({ message: "Hey there! "}));
 ```
 
 **Returning Promises:**
+
+Instead of returning an object, you can also return a promise.
+This is useful for asynchronous operations.
 
 ```js
 app.at('/delay/:secs', (q) => {
@@ -64,6 +74,8 @@ app.at('/delay/:secs', (q) => {
 ```
 
 **GET and POST queries:**
+
+GET and POST query data is stored in the `query` property.
 
 ```js
 app.at('/echo', (q) => ({ text: q.query.text }));
@@ -90,33 +102,48 @@ app.at(/^\/my-name-is-(.+)$/, (q) => (
 
 **Differentiating request types:**
 
+The `get`, `post`, `put`, and `delete` functions can be used to
+add bindings for specific request methods.
+
 ```js
-// 'get', 'post', 'put', and 'delete' methods can be used to bind!
 app.get('/method', () => ({ message: 'GET request!' }));
 app.post('/method', () => ({ message: 'POST request!' }));
 // GET localhost:8080/method
 // => { "message": "GET request!" }
 // POST localhost:8080/method
 // => { "message": "POST request!" }
+```
+You can also specify several methods as a third array argument to `at`.
 
-// You can also specify several methods as a final argument to 'at'.
+```js
 app.at('/method', () => ({message: 'PUT or DELETE request!'}), ['PUT', 'DELETE']);
 // PUT localhost:8080/method
 // => { "message": "PUT or DELETE request!" }
 // DELETE localhost:8080/method
 // => { "message": "PUT or DELETE request!" }
+```
 
+By default, all possible methods will be accepted:
+
+```js
 app.at('/method', () => ({message: 'Something Else!'}));
 // TRACE localhost:8080/method
 // => { "message": "Something Else!" }
 ```
 
 **HTTP Request Headers:**
+
+The HTTP request headers are present in the `headers` property.
+
 ```js
 app.at('/agent', (q) => ({ agent: q.headers['user-agent'] }));
 ```
 
 **Handling Node HTTP Server Errors:**
+
+Sometimes, node encounters HTTP errors. Use `catch` to add
+a binding for when these errors occur.
+
 ```js
 app.catch((err, socket) => {
   socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
@@ -124,12 +151,21 @@ app.catch((err, socket) => {
 ```
 
 **Handling Error Logging:**
+
+Want to control where the server logs data? Use the `log` function
+to specify a custom logger for error messages and other output.
+The default logger is simply `console.log`.
+
 ```js
 app.log((msg) => console.log(`Serville Error: ${msg}`));
-// By default, logger is console.log.
 ```
 
 **Don't Crash on Binding Errors:**
+
+By default, when an uncaught error occurs in your binding code,
+the server will immediately crash. You can force the server to keep
+running as if nothing has happened using `crashOnBindError`.
+
 ```js
 app.crashOnBindError = false;
 ```
