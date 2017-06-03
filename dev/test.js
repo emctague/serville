@@ -16,6 +16,11 @@ app.catch((err, socket) => {
 
 app.at('/', () => ({ message: 'Hello!' }));
 
+app.get('/rtype', () => ({message: 'GET request!'}));
+app.post('/rtype', () => ({message: 'POST request!'}));
+app.at('/rtype', () => ({message: 'PUT or DELETE request!'}), ['PUT', 'DELETE']);
+app.at('/rtype', () => ({message: 'Something Else!'}));
+
 // This path echoes the request data provided.
 app.at('/echo/:sometext/:othertext/?', (q) => {
   return q;
