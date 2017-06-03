@@ -22,7 +22,9 @@ class Serville {
       // Check for any matching bindings.
       for (var binding of this.bindings) {
         let matches = path.match(binding.at);
-        if (matches !== null) {
+
+        // Use this binding if the path matches and the correct HTTP method is used.
+        if (matches !== null && (!binding.types || binding.types.indexOf(req.method) > -1)) {
 
           // Put the parameters into an object.
           let params = {};
@@ -79,12 +81,15 @@ class Serville {
    * paths can have varying parts, named with a colon, which will be passed
    * as properties to the binding.
    * Bindings must return either a promise for output, or the output itself.
+   * The 'type' argument is an array specifying the types of HTTP requests
+   * this binding can handle (e.g. ['GET', 'POST'].) If left out, the default
+   * is any type.
    * The 'req' object passed to the binding as an argument contains:
    *  params: (Object) URL colon property values
    *  query: (Object) GET and POST query values
    *  headers: (Object) HTTP request headers
    */
-  at (location, cb) {
+  at (location, cb, types) {
     // Find parameters (:something).
     let detect = /\/\:([a-zA-Z0-9_]+?)(?=\/|$)/g;
     let keys = location.match(detect) || [];
@@ -98,9 +103,38 @@ class Serville {
     this.bindings.push({
       at: new RegExp('^' + rex + '$', 'i'),
       keys: keys.map(k => k.substring(2)),
-      cb: cb
+      cb: cb,
+      types: types
     });
     return this;
+  }
+
+  /* Add a new binding for GET requests.
+   * Same as calling at(location, cb, ['GET']).
+   */
+  get (location, cb) {
+    this.at(location, cb, ['GET']);
+  }
+
+  /* Add a new binding for POST requests.
+   * Same as calling at(location, cb, ['POST']).
+   */
+  post (location, cb) {
+    this.at(location, cb, ['POST']);
+  }
+
+  /* Add a new binding for PUT requests.
+   * Same as calling at(location, cb, ['PUT']).
+   */
+  put (location, cb) {
+    this.at(location, cb, ['PUT']);
+  }
+
+  /* Add a new binding for DELETE requests.
+   * Same as calling at(location, cb, ['DELETE']).
+   */
+  delete (location, cb) {
+    this.at(location, cb, ['DELETE']);
   }
 
   // Bind a Node HTTP server event.

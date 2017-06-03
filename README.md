@@ -74,6 +74,29 @@ app.at('/echo', (q) => ({ text: q.query.text }));
 // => { "text": "Hello!" }
 ```
 
+**Differentiating request types:**
+
+```js
+// 'get', 'post', 'put', and 'delete' methods can be used to bind!
+app.get('/method', () => ({ message: 'GET request!' }));
+app.post('/method', () => ({ message: 'POST request!' }));
+// GET localhost:8080/method
+// => { "message": "GET request!" }
+// POST localhost:8080/method
+// => { "message": "POST request!" }
+
+// You can also specify several methods as a final argument to 'at'.
+app.at('/method', () => ({message: 'PUT or DELETE request!'}), ['PUT', 'DELETE']);
+// PUT localhost:8080/method
+// => { "message": "PUT or DELETE request!" }
+// DELETE localhost:8080/method
+// => { "message": "PUT or DELETE request!" }
+
+app.at('/method', () => ({message: 'Something Else!'}));
+// TRACE localhost:8080/method
+// => { "message": "Something Else!" }
+```
+
 **HTTP Request Headers:**
 ```js
 app.at('/agent', (q) => ({ agent: q.headers['user-agent'] }));
