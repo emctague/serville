@@ -17,7 +17,7 @@ app.catch((err, socket) => {
 app.at('/', () => ({ message: 'Hello!' }));
 
 // This path echoes the request data provided.
-app.at('/echo/:sometext/?', (q) => {
+app.at('/echo/:sometext/:othertext/?', (q) => {
   return q;
 });
 

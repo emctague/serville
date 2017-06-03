@@ -17,16 +17,17 @@ class Serville {
 
       // Parse the URL to get the path.
       let parsed = url.parse(req.url, true);
+      let path = decodeURIComponent(parsed.pathname);
 
       // Check for any matching bindings.
-      for (var binding of this.bindings)
-        if (binding.at.test(parsed.path)) {
+      for (var binding of this.bindings) {
+        let matches = path.match(binding.at);
+        if (matches !== null) {
 
           // Put the parameters into an object.
           let params = {};
-          let match = parsed.path.match(binding.at);
           for (var i in binding.keys)
-            params[binding.keys[i]] = match[parseInt(i) + 1];
+            params[binding.keys[i]] = matches[parseInt(i) + 1];
 
           // Wait for all HTTP post data (if any) to arrive.
           let data = '';
@@ -67,7 +68,7 @@ class Serville {
           });
           return;
         }
-
+      }
       // No bindings matched - serve 404.
       res.statusCode = 404;
       res.end('{ "status": "404", "message": "Endpoint Not Found" }');
