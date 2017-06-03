@@ -21,6 +21,12 @@ app.post('/rtype', () => ({message: 'POST request!'}));
 app.at('/rtype', () => ({message: 'PUT or DELETE request!'}), ['PUT', 'DELETE']);
 app.at('/rtype', () => ({message: 'Something Else!'}));
 
+app.at(/^\/my-name-is-(.+)$/, (q) => {
+  return {
+    message: `Hello, ${q.match[1]}!`
+  };
+});
+
 // This path echoes the request data provided.
 app.at('/echo/:sometext/:othertext/?', (q) => {
   return q;

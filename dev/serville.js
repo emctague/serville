@@ -42,7 +42,8 @@ class Serville {
               let bindCall = binding.cb({
                 params: params,
                 headers: req.headers,
-                query: Object.assign(parsed.query, querystring.parse(data))
+                query: Object.assign(parsed.query, querystring.parse(data)),
+                match: matches
               });
 
               // Send out the results (Promise-based or return-based.)
@@ -78,8 +79,8 @@ class Serville {
   }
 
   /* Add a new binding at the specified path.
-   * paths can have varying parts, named with a colon, which will be passed
-   * as properties to the binding.
+   * Paths can have varying parts, named with a colon, which will be passed
+   * as properties to the binding. The path can also be a RegExp.
    * Bindings must return either a promise for output, or the output itself.
    * The 'type' argument is an array specifying the types of HTTP requests
    * this binding can handle (e.g. ['GET', 'POST'].) If left out, the default
@@ -88,20 +89,24 @@ class Serville {
    *  params: (Object) URL colon property values
    *  query: (Object) GET and POST query values
    *  headers: (Object) HTTP request headers
+   *  match: (Array) Raw match results between the location regex and path.
    */
   at (location, cb, types) {
-    // Find parameters (:something).
-    let detect = /\/\:([a-zA-Z0-9_]+?)(?=\/|$)/g;
-    let keys = location.match(detect) || [];
+    let rex = false, keys = [];
+    if (!(location instanceof RegExp)) {
+      // Find parameters (:something).
+      let detect = /\/\:([a-zA-Z0-9_]+?)(?=\/|$)/g;
+      let keys = location.match(detect) || [];
 
-    // Make the location regex-safe, then add selectors for prop values.
-    let rex = location.replace(/[\-\[\]\/\{\}\(\)\*\+\.\\\^\$\|]/g, '\\$&');
-    for (let key of keys)
-      rex = rex.replace(key, '/(.+?)');
+      // Make the location regex-safe, then add selectors for prop values.
+      rex = location.replace(/[\-\[\]\/\{\}\(\)\*\+\.\\\^\$\|]/g, '\\$&');
+      for (let key of keys)
+        rex = rex.replace(key, '/(.+?)');
+    }
 
     // Add the new binding.
     this.bindings.push({
-      at: new RegExp('^' + rex + '$', 'i'),
+      at: rex ? new RegExp('^' + rex + '$', 'i') : location,
       keys: keys.map(k => k.substring(2)),
       cb: cb,
       types: types
