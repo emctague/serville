@@ -24,11 +24,7 @@ npm i --save serville
 ```js
 const app = require('serville')();
 app.listen('8080');
-```
 
-**Basic Listening:**
-
-```js
 app.at('/', (q) => ({ message: "Hello!" }));
 // GET localhost:8080/
 // => { "message": "Hello!" }
