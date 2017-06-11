@@ -1,6 +1,6 @@
 {
   "name": "serville",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Serville, the fast and easy HTTP API library for NodeJS.",
   "main": "serville.js",
   "scripts": {
