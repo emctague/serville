@@ -150,29 +150,6 @@ app.catch((err, socket) => {
 });
 ```
 
-**Handling Error Logging:**
-
-Want to control where the server logs data? Use the `log` function
-to specify a custom logger for error messages and other output.
-The default logger is simply `console.log`.
-
-```js
-app.log((msg) => console.log(`Serville Error: ${msg}`));
-```
-
-**Don't Crash on Binding Errors:**
-
-By default, when an uncaught error occurs in your binding code,
-the server will immediately crash. You can force the server to keep
-running as if nothing has happened using `crashOnBindError`.
-
-```js
-app.crashOnBindError = false;
-```
-
-Please note that it is [considered safer to crash](https://www.joyent.com/node-js/production/design/errors)
-when an unknown error occurs - it is not recommended to turn this option off.
-
 ## Notes
 
  * The NPM package does not include the project sources or certain files from the

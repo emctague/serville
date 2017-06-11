@@ -6,9 +6,6 @@ let app = Serville().listen(8080, () => {
   console.log('Listening on :8080.');
 });
 
-app.log((msg) => console.log(`e: ${msg}`));
-app._log('Test Message');
-
 // Handle Node HTTP errors.
 app.catch((err, socket) => {
   socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
@@ -40,6 +37,13 @@ app.at('/error/exception', () => {
 // Triggers a programmer error (to test logging.)
 app.at('/error/code', () => {
   null();
+});
+
+// Triggers an error in a promise.
+app.at('/error/promise', () => {
+  return new Promise(() => {
+    throw new Error('A fake error!');
+  });
 });
 
 // This path responds after a delay in seconds, using promises.

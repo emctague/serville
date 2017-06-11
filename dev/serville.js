@@ -9,8 +9,6 @@ const querystring = require('querystring');
 class Serville {
   constructor () {
     this.bindings = [];           // List of all path bindings.
-    this.logger = console.log;    // The logger to use to log errors.
-    this.crashOnBindError = true; // Crash when an error occurs in a binding?
 
     // Handle HTTP requests.
     this.server = http.createServer((req, res) => {
@@ -50,23 +48,13 @@ class Serville {
               if (bindCall instanceof Promise)
                 bindCall.then((result) => {
                   res.end(JSON.stringify(result));
+                }).catch((e) => {
+                  this._handleBindingError(e, res);
                 });
               else
                 res.end(JSON.stringify(bindCall));
             } catch (e) {
-              // Handle errors in the binding code.
-              res.statusCode = 500;
-              res.end(JSON.stringify({
-                status: 'Server Error',
-                error: this._log(e)
-              }));
-
-              // Crash the program - devs should make their server auto-restart.
-              // This is safer than continuing to run after errors.
-              if (this.crashOnBindError) {
-                this._log('Fatal binding error, aborting app. Your server should handle automatic restarting.');
-                process.exit(1);
-              }
+              this._handleBindingError(e, res);
             }
           });
           return;
@@ -76,6 +64,22 @@ class Serville {
       res.statusCode = 404;
       res.end('{ "status": "404", "message": "Endpoint Not Found" }');
     });
+  }
+
+  // Handle an error in a binding.
+  _handleBindingError (e, res) {
+    // Handle errors in the binding code.
+    res.statusCode = 500;
+    res.end(JSON.stringify({
+      status: 'Server Error',
+      error: e.message || e
+    }));
+
+    // Crash the program - devs should make their server auto-restart.
+    // This is safer than continuing to run after errors.
+    console.log(e);
+    console.log('Fatal binding error, aborting app. Your server should handle automatic restarting.');
+    process.exit(1);
   }
 
   /* Add a new binding at the specified path.
@@ -160,16 +164,5 @@ class Serville {
     return this;
   }
 
-  // Log the given messaage, then return it.
-  _log (message) {
-    this.logger(`[${new Date()}] ${message}`);
-    return message;
-  }
-
-  // Set the logger function to use to log errors.
-  log (logger) {
-    this.logger = logger;
-    return this;
-  }
 }
 module.exports = () => new Serville();
