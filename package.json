@@ -4,10 +4,10 @@
   "description": "Serville, the fast and easy HTTP API library for NodeJS.",
   "main": "serville.js",
   "scripts": {
-    "test": "eslint dev",
-    "fix": "eslint dev --fix",
-    "dev": "node dev/test.js",
-    "build": "babili dev/serville.js -o serville.js"
+    "test": "eslint lib",
+    "fix": "eslint lib --fix",
+    "dev": "node lib/test.js",
+    "build": "babili lib/serville.js -o serville.js"
   },
   "keywords": [
     "http",
