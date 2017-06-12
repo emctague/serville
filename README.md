@@ -172,8 +172,8 @@ protected. We recommend editing code on your own branch, then merging into
 `develop`. You may only merge with `master` after your PR is approved and
 continuous integration checks pass.
 
-The source code for the library is in `dev/serville.js`.
-Modify the testing script in `dev/test.js` to try out your changes and new
+The source code for the library is in `lib/serville.js`.
+Modify the testing script in `lib/test.js` to try out your changes and new
 features. You can run these tests with `npm run dev`.
 
 To build the current version of the server to `serville.js`, simply run `npm run build`.
